@@ -1,0 +1,6 @@
+{
+  "name": "Spring Boot Elide Undertow",
+  "description": "Playing with Spring Boot, Undertow and Elide on Heroku",
+  "image": "heroku/java",
+  "addons": [ "cleardb" ]
+}
