@@ -1,11 +1,10 @@
 package com.shousper.jsonapi.config;
 
 import com.yahoo.elide.Elide;
+import com.yahoo.elide.audit.AuditLogger;
 import com.yahoo.elide.audit.LogMessage;
-import com.yahoo.elide.audit.Logger;
 import com.yahoo.elide.core.DataStore;
 import com.yahoo.elide.datastores.hibernate5.HibernateStore;
-import com.yahoo.elide.resources.JsonApiEndpoint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
@@ -30,7 +29,7 @@ public class ElideConfiguration {
         final SessionFactory sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
         final DataStore dataStore = new HibernateStore(sessionFactory);
 
-        return new Elide(new Logger() {
+        return new Elide(new AuditLogger() {
             @Override
             public void commit() throws IOException {
                 try {
@@ -43,12 +42,5 @@ public class ElideConfiguration {
             }
         }, dataStore);
     }
-
-    @Bean
-    @Named("elideUserExtractionFunction")
-    public JsonApiEndpoint.DefaultOpaqueUserFunction elideUserExtractionFunction() {
-        return securityContext -> null;
-    }
-
 
 }
